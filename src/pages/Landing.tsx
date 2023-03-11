@@ -1,5 +1,5 @@
 import GYMSTAT_LOGO from "../assets/GYMSTAT_LOGO"
-import dumbell_image from "../assets/Dumbells.png"
+import workoutMachineImage from "../assets/WorkoutMachineImage1000px.png"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,9 +11,12 @@ import {
   Tooltip,
   Filler,
   Legend,
-  ScriptableContext
+  ScriptableContext,
+  ChartOptions,
 } from 'chart.js';
 import { Line, Radar } from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2'
+import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
 
 ChartJS.register(
   CategoryScale,
@@ -24,93 +27,216 @@ ChartJS.register(
   Title,
   Tooltip,
   Filler,
-  Legend
+  Legend,
+  MatrixElement,
+  MatrixController,
 );
 
 
 export default function Landing() {
   return (
-    <div className="w-full min-h-screen h-full flex flex-col bg-black-dark">
-      <nav className="max-h-16 w-full bg-black-dark">
-        <div className="w-fit h-fit mx-auto mt-4 max-w-[12rem]">
+    <div className="w-full min-h-screen h-full flex flex-col bg-secondary">
+      <nav className="max-h-16 w-full fixed bg-secondary flex">
+        <div className="w-fit h-fit mx-auto my-2 max-w-[10rem]">
           <GYMSTAT_LOGO />
         </div>
       </nav>
-      <div className="mx-auto mt-20">
-        <div className="w-80">
-          <img src={dumbell_image} alt="An image of two stacked dumbells"/>
-        </div>
-      </div>
-      <section className="max-w-md mt-20 mx-auto">
-        <h1 className="font-bold text-5xl text-center">TAKE YOUR <span className="text-accent">WORKOUTS</span> TO THE NEXT LEVEL</h1>
-      </section>
-      <section className="mt-24 mx-auto w-fit">
-        <h1 className="font-bold text-4xl text-center">ANALYSE YOUR <span className="text-accent">WORKOUTS</span> AND MAKE <span className="text-accent">IMPROVEMENTS</span></h1>
-        <div className="w-fit h-fit mx-auto mt-8">
-          <Line options={exampleAreaGraphOptions} data={exampleAreaGraphData} className="w-20 h-20 min-w-[5rem] min-h-[5rem]" />
-        </div>
-        <div className="w-fit h-fit mx-auto mt-8">
-          <Radar options={exampleAreaGraphOptions} data={exampleRadarGraphData} width={300} height={300} className="w-10 h-10 min-w-[5rem] min-h-[5rem]" />
-        </div>
-      </section>
-      <section className="mt-24 mx-auto w-fit">
-        <h1 className="font-bold text-4xl text-center">VIEW YOUR <span className="text-accent">PROGRESS</span> AND GET <span className="text-accent">MOTIVATED</span></h1>
-        <div className="w-fit h-fit mx-auto mt-8">
-          <Line options={exampleAreaGraphOptions} data={exampleAreaGraphData} className="w-20 h-20 min-w-[5rem] min-h-[5rem]" />
-        </div>
-        <div className="w-fit h-fit mx-auto mt-8">
-          <Radar options={exampleAreaGraphOptions} data={exampleRadarGraphData} width={300} height={300} className="w-10 h-10 min-w-[5rem] min-h-[5rem]" />
-        </div>
-      </section>
+      <main id="content" className="max-h-screen">
+        <section className="flex flex-wrap h-screen">
+          <div className="my-auto mx-auto max-w-xs pt-14">
+            <h1 className="text-4xl font-bold">TAKE YOUR <span className="text-accent">WORKOUTS</span> TO THE NEXT <span className="text-accent">LEVEL</span></h1>
+            <p className="mt-1 font-medium">Use <span className="text-accent">GYMSTAT</span> to track your workouts and health, and achieve the <span className="text-accent">results</span> you want</p>
+          </div>
+          <div className="max-w-sm lg:max-w-xl mx-auto my-auto">
+            <img src={workoutMachineImage} alt="An image of two stacked dumbells" />
+          </div>
+        </section>
+        <section className="flex flex-wrap-reverse h-screen text-end">
+          <div className="flex flex-col mx-auto my-auto xl:flex-row xl:w-[50rem] ">
+            <div className="w-56 h-56 mx-auto mt-auto pt-14 lg:w-80 lg:h-80">
+              <Line options={areaChartOptions} data={areaChartData} />
+            </div>
+            <div className="w-44 h-44 mx-auto mb-auto lg:w-80 lg:h-80">
+              <Radar options={radarChartOptions} data={radarChartData} />
+            </div>
+          </div>
+          <div className="my-auto mx-auto max-w-xs pt-14">
+            <h1 className="text-4xl font-bold">VIEW YOUR <span className="text-accent">PROGRESS</span></h1>
+            <p className="font-medium">See how far you have come and how much you have <span className="text-accent">achieved</span></p>
+          </div>
+        </section>
+        <section className="flex flex-wrap h-screen">
+          <div className="mx-auto my-auto max-w-xs pt-14">
+            <h1 className="text-4xl font-bold">GET <span className="text-accent">MOTIVATED</span></h1>
+            <p className="font-medium"><span className="text-accent">Plan</span> and <span className="text-accent">look forward</span> to your workouts</p>
+          </div>
+          <div className="flex flex-col mx-auto my-auto xl:flex-row xl:pt-14 xl:w-[50rem]">
+            <div className="w-56 h-48 mx-auto my-auto">
+              <Chart type="matrix" data={matrixChartData} options={matrixChartOptions} />
+            </div>
+            <div className="w-56 h-24 bg-primary rounded-sm mx-auto my-auto flex flex-col text-secondary justify-center">
+              <h2 className="font-semibold text-3xl mx-auto ">46%</h2>
+              <p className="mx-auto text-accent font-medium">Bench Press</p>
+              <p className="mx-auto leading-3 text-tertiary mb-2">| Strength Increase |</p>
+            </div>
+            <div className="w-56 h-24 bg-primary rounded-sm mx-auto my-auto flex flex-col text-secondary justify-center">
+              <h2 className="font-semibold text-3xl mx-auto ">-14KG</h2>
+              <p className="mx-auto text-accent font-medium">Weight</p>
+              <p className="mx-auto leading-3 text-tertiary mb-2">| Weight Loss |</p>
+            </div>
+          </div>
+        </section>
+        <section className="flex flex-col h-screen text-center">
+          <div className="pt-14 mx-auto my-auto">
+            <h1 className="text-4xl font-bold">SIGN UP <span className="text-accent">OR</span> LOG IN</h1>
+            <p className="font-medium">Start <span className="text-accent">tracking</span> your workouts and health <span className="text-accent">today</span>!</p>
+          <button className="w-72 h-14 bg-accent rounded-sm text-primary mx-auto mt-6">SIGN IN</button>
+          </div>
+          <footer className="">By Bennette Benoy</footer>
+        </section>
+        <section className="h-1"></section>
+      </main>
     </div>
   )
 }
 
+const matrixChartData = {
+  datasets: [{
+    label: 'Heatmap',
+    data: [
+      { x: "March", y: "Week 1", v: 0 },
+      { x: "March", y: "Week 2", v: 0 },
+      { x: "March", y: "Week 3", v: 10 },
+      { x: "March", y: "Week 4", v: 0 },
+      { x: "April", y: "Week 1", v: 20 },
+      { x: "April", y: "Week 2", v: 10 },
+      { x: "April", y: "Week 3", v: 20 },
+      { x: "April", y: "Week 4", v: 30 },
+      { x: "May", y: "Week 1", v: 10 },
+      { x: "May", y: "Week 2", v: 10 },
+      { x: "May", y: "Week 3", v: 30 },
+      { x: "May", y: "Week 4", v: 20 },
+      { x: "June", y: "Week 1", v: 0 },
+      { x: "June", y: "Week 2", v: 20 },
+      { x: "June", y: "Week 3", v: 30 },
+      { x: "June", y: "Week 4", v: 30 },
+      { x: "July", y: "Week 1", v: 30 },
+      { x: "July", y: "Week 2", v: 10 },
+      { x: "July", y: "Week 3", v: 0 },
+      { x: "July", y: "Week 4", v: 30 },
+      { x: "August", y: "Week 1", v: 30 },
+      { x: "August", y: "Week 2", v: 20 },
+      { x: "August", y: "Week 3", v: 20 },
+      { x: "August", y: "Week 4", v: 0 },
+    ],
+    backgroundColor: (context: any) => {
+      const value = context.dataset.data[context.dataIndex]["v"];
+      const alpha = (value - 5) / 40;
+      return `rgba(36,121,219,${alpha})`
+    },
+    width: ({ chart }: { chart: any }) => (chart.chartArea || {}).height / 4 - 1,
+    height: ({ chart }: { chart: any }) => (chart.chartArea || {}).height / 4 - 1,
+  }]
 
+}
 
-const exampleAreaGraphOptions = {
-  responsive: false,
+const matrixChartOptions: ChartOptions<"matrix"> = {
+  responsive: true,
+  maintainAspectRatio: true,
+  aspectRatio: 1.35,
   plugins: {
     legend: {
+      display: false,
+    },
+  },
+  scales: {
+    x: {
+      type: 'category',
+      labels: ["March", "April", "May", "June", "July", "August"],
+      grid: {
         display: false,
+      }
     },
-   },
-    title: {
-      display: true,
-      text: 'Chart.js Line Chart',
+    y: {
+      offset: true,
+      type: 'category',
+      labels: ["Week 1", "Week 2", "Week 3", "Week 4"],
+      grid: {
+        display: false,
+      }
+    }
+  }
+
+}
+
+const areaChartOptions: ChartOptions<'line'> = {
+  responsive: true,
+  maintainAspectRatio: true,
+  plugins: {
+    legend: {
+      display: false,
     },
-};
+  }
+}
 
 const labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7'];
 
-export const exampleAreaGraphData = {
+const areaChartData = {
   labels,
   datasets: [
     {
       fill: true,
       label: 'Dataset 2',
-      data: [25,27,29,29,31,32,33],
+      data: [25, 27, 29, 29, 31, 32, 33],
+      pointRadius: 1.5,
+      lineTension: 0.2,
       borderColor: '#fcfbfd',
       backgroundColor: (context: ScriptableContext<"line">) => {
-                  const ctx = context.chart.ctx;
-                  const gradient = ctx.createLinearGradient(0, 0, 0, 100);
-                  gradient.addColorStop(0, "rgba(255, 211, 13,0.7)");
-                  gradient.addColorStop(1, "rgba(255, 211, 13,0)");
-                  return gradient;
-                },
+        const ctx = context.chart.ctx;
+        const gradient = ctx.createLinearGradient(0, 0, 0, 125);
+        gradient.addColorStop(0, "rgba(36, 121, 219,0.7)");
+        gradient.addColorStop(0.5, "rgba(36, 121, 219,0.3)");
+        gradient.addColorStop(1, "rgba(36, 121, 219,0)");
+        return gradient;
+      },
     },
   ],
 };
 
-export const exampleRadarGraphData = {
-  labels: ['Upper Body', 'Arms', 'Core', 'Legs', 'Back'],
+const radarChartOptions: ChartOptions<'radar'> = {
+  responsive: true,
+  maintainAspectRatio: true,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
+  scales: {
+    r: {
+      suggestedMin: 0,
+      suggestedMax: 70,
+      ticks: {
+        stepSize: 0,
+        backdropColor: "transparent",
+        color: "white",
+      },
+      grid: {
+        color: "black",
+      }
+
+    }
+  }
+}
+
+const radarChartData = {
+  labels: ['Upper Body', 'Legs', 'Back', 'Core', 'Cardio'],
   datasets: [
     {
-      label: '% in Strength Gain',
-      data: [32, 44, 38, 51, 29],
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      borderColor: 'rgba(255, 99, 132, 1)',
+      label: '% Improvement',
+      data: [64, 56, 34, 60, 45],
+      backgroundColor: "rgba(36, 121, 219,0.3)",
+      borderColor: "rgba(36, 121, 219,0.7)",
       borderWidth: 1,
-    },
-  ],
-};
+    }
+  ]
+}

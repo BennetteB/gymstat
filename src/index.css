@@ -1,11 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Golos Text", system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   
@@ -21,3 +20,13 @@
   -webkit-text-size-adjust: 100%;
 }
 
+@supports (scroll-snap-align: start) {
+  main {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: 100vh;
+    overflow-y: scroll;
+  }
+  section {
+    scroll-snap-align: start; 
+  }
+}
