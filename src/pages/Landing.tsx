@@ -17,6 +17,7 @@ import {
 import { Line, Radar } from 'react-chartjs-2';
 import { Chart } from 'react-chartjs-2'
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix'
+import { useState } from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -89,14 +90,38 @@ export default function Landing() {
         <section className="flex flex-col h-screen text-center">
           <div className="pt-14 mx-auto my-auto">
             <h1 className="text-4xl font-bold">SIGN UP <span className="text-accent">OR</span> LOG IN</h1>
-            <p className="font-medium">Start <span className="text-accent">tracking</span> your workouts and health <span className="text-accent">today</span>!</p>
-          <button className="w-72 h-14 bg-accent rounded-sm text-primary mx-auto mt-6">SIGN IN</button>
+            <p className="font-medium">Start tracking your workouts and health today!</p>
+            <SigninForm  className="mt-8"/>
           </div>
-          <footer className="">By Bennette Benoy</footer>
+          <footer className="mt-auto">By Bennette Benoy</footer>
         </section>
         <section className="h-1"></section>
       </main>
     </div>
+  )
+}
+
+function SigninForm({className} : {className : string}) {
+  const [signupState, setSignupState] = useState<"signup" | "login">("signup")
+  return (
+    <div className={className}>
+        <div className="flex flex-row justify-center">
+          <input type="radio" id="signup-radio" name="signin" className="peer/signin absolute w-0 h-0 opacity-0" checked={signupState === "signup" ? true : false} onClick={() => setSignupState("signup")} />
+          <label htmlFor="signup-radio" className="w-20 bg-tertiary rounded-l-sm peer-checked/signin:bg-accent transition-colors">Sign up</label>
+          <input type="radio" id="login-radio" name="signin" className="peer/login absolute w-0 h-0 opacity-0" checked={signupState === "login" ? true : false} onClick={() => setSignupState("login")} />
+          <label htmlFor="login-radio" className="w-20 bg-tertiary rounded-r-sm peer-checked/login:bg-accent transition-colors">Log in</label>
+        </div>
+        <form className="mt-4 flex flex-col">
+          <input type="email" placeholder="Email" className="w-60 h-8 mx-auto"/>
+          <input type="password" placeholder="Password" className="w-60 h-8 mx-auto"/>
+          { signupState === "signup" ?
+            <input type="password" placeholder="Confirm Password" className="w-60 h-8 mx-auto"/>
+            : ""
+          }
+          <input type="submit" className="w-60 h-8 mt-4 mx-auto bg-accent text-primary rounded-sm"/>
+        </form>
+    </div>
+
   )
 }
 
